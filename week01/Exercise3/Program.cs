@@ -9,7 +9,6 @@ class Program
         {
             Random randomGenerator = new Random();
             int randomNumber = randomGenerator.Next(1, 100);
-            Console.WriteLine(randomNumber);
 
             Console.WriteLine("Try and guess the magic number!");
             
