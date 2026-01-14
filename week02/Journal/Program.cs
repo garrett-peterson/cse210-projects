@@ -26,6 +26,11 @@ class Program
                 Console.Write("> ");
                 string entry = Console.ReadLine();
                 Console.WriteLine();
+                DateTime theCurrentTime = DateTime.Now;
+                string dateText = theCurrentTime.ToShortDateString();   
+                Console.WriteLine(dateText);
+
+                //Possibly add the entry to a list that the display can then print
             }
             else if (choice == "2")
             {
