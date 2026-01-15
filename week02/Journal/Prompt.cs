@@ -2,32 +2,73 @@ using System;
 
 public class Prompt
 {
-    Random random = new Random();
-    int randomNumber;
-
-    public void GetPrompt()
+    public List<string> _prompts = new List<string>();
+    
+    int nextPrompt = 0;
+    bool shuffled = false;
+    List<string> shuffledPrompts;
+    public string GetRandomPrompt()
     {
-        randomNumber = random.Next(1, 6);
-        
-        if (randomNumber == 1)
+        if (_prompts.Count() == 0)
         {
-            Console.WriteLine("What was the best part of your day?");
+            string folderPath = @"C:\Users\garrett.peterson\Desktop\School\Term 2\CSE210\cse210-projects\week02\Journal";
+            string fullPath = Path.Combine(folderPath, "prompts.txt");
+            string[] lines = System.IO.File.ReadAllLines(fullPath);
+
+            foreach (string line in lines)
+            {
+                _prompts.Add(line);
+            }
         }
-        else if (randomNumber == 2)
+
+        if (shuffled == false)
         {
-            Console.WriteLine("What one thing would you change about today?");
+            shuffledPrompts = new List<string>(_prompts.Shuffle());
+            shuffled = true;
         }
-        else if (randomNumber == 3)
+
+        string promptText = shuffledPrompts[nextPrompt];
+
+        if (nextPrompt >= shuffledPrompts.Count() - 1)
         {
-            Console.WriteLine("What is something you are looking forward to?");
+            nextPrompt = 0;
+            shuffled = false;
         }
-        else if (randomNumber == 4)
+        else
         {
-            Console.WriteLine("Did you have a chance to share the gospel today?");
+            nextPrompt++;
         }
-        else if (randomNumber == 5)
-        {
-            Console.WriteLine("What was the strangest thing that happened today?");
-        }
+
+        return promptText;
     }
+
+    public void AddPrompt (string newPrompt)
+    {
+        if (_prompts.Count() == 0)
+        {
+            string folderPath1 = @"C:\Users\garrett.peterson\Desktop\School\Term 2\CSE210\cse210-projects\week02\Journal";
+            string fullPath1 = Path.Combine(folderPath1, "prompts.txt");
+            string[] lines = System.IO.File.ReadAllLines(fullPath1);
+
+            foreach (string line in lines)
+            {
+                _prompts.Add(line);
+            }
+        }
+
+        _prompts.Add(newPrompt);
+
+        string folderPath = @"C:\Users\garrett.peterson\Desktop\School\Term 2\CSE210\cse210-projects\week02\Journal";
+        string fullPath = Path.Combine(folderPath, "prompts.txt");
+        using (StreamWriter outputFile = new StreamWriter(fullPath))
+        {
+     
+            for (int i = 0; i < _prompts.Count; i++)
+            {
+                outputFile.WriteLine(_prompts[i]);
+            }
+        }
+        shuffled = false;
+    }
+    
 }
