@@ -19,8 +19,7 @@ public class Journal
 
     public void SaveToFile(string file)
     {
-        string folderPath = @"C:\Users\garrett.peterson\Desktop\School\Term 2\CSE210\cse210-projects\week02\Journal";
-        string fullPath = Path.Combine(folderPath, file);
+        string fullPath = file;
         using (StreamWriter outputFile = new StreamWriter(fullPath))
         {
             foreach (Entry E in _entries)
@@ -34,8 +33,7 @@ public class Journal
 
     public void LoadFromFile(string file)
     {   
-        string folderPath = @"C:\Users\garrett.peterson\Desktop\School\Term 2\CSE210\cse210-projects\week02\Journal";
-        string fullPath = Path.Combine(folderPath, file);
+        string fullPath = file;
         string[] lines = System.IO.File.ReadAllLines(fullPath);
 
         for (int i = 0; i < lines.Length; i +=3)

@@ -1,7 +1,9 @@
 using System;
-
+using System.IO;
+using System.Collections.Generic;
 public class Prompt
 {
+    private string _promptsFile = "prompts.txt";
     public List<string> _prompts = new List<string>();
     
     int nextPrompt = 0;
@@ -11,9 +13,10 @@ public class Prompt
     {
         if (_prompts.Count() == 0)
         {
-            string folderPath = @"C:\Users\garrett.peterson\Desktop\School\Term 2\CSE210\cse210-projects\week02\Journal";
-            string fullPath = Path.Combine(folderPath, "prompts.txt");
-            string[] lines = System.IO.File.ReadAllLines(fullPath);
+
+            string fullPath = Path.Combine(Directory.GetCurrentDirectory(), _promptsFile);
+
+            string[] lines = System.IO.File.ReadAllLines(_promptsFile);
 
             foreach (string line in lines)
             {
@@ -46,9 +49,7 @@ public class Prompt
     {
         if (_prompts.Count() == 0)
         {
-            string folderPath1 = @"C:\Users\garrett.peterson\Desktop\School\Term 2\CSE210\cse210-projects\week02\Journal";
-            string fullPath1 = Path.Combine(folderPath1, "prompts.txt");
-            string[] lines = System.IO.File.ReadAllLines(fullPath1);
+            string[] lines = System.IO.File.ReadAllLines(_promptsFile);
 
             foreach (string line in lines)
             {
@@ -58,9 +59,7 @@ public class Prompt
 
         _prompts.Add(newPrompt);
 
-        string folderPath = @"C:\Users\garrett.peterson\Desktop\School\Term 2\CSE210\cse210-projects\week02\Journal";
-        string fullPath = Path.Combine(folderPath, "prompts.txt");
-        using (StreamWriter outputFile = new StreamWriter(fullPath))
+        using (StreamWriter outputFile = new StreamWriter(_promptsFile))
         {
      
             for (int i = 0; i < _prompts.Count; i++)
