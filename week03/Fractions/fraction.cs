@@ -49,7 +49,7 @@ public class Fraction
 
     public double GetDecimalValue()
     {
-        double decimalFraction = (double)_top / _bottom;
-        return decimalFraction;
+     
+        return (double)_top / (double)_bottom;
     }   
 }
