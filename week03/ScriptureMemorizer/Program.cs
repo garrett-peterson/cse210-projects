@@ -1,4 +1,13 @@
 using System;
+/*
+Exceeded the requirements by:
+    1) Making sure the same word isn't being hidden repeatedly
+    2) If the user type 'u' a number of random words will unhide
+    3) Added an option at the begging of the program to choose a
+       difficulty, easy, 1 word is hidden, medium 2 words are 
+       hidden, hard 4 words are hidden
+    4) Added an option at the begging to choose a scripture
+*/
 
 class Program
 {
@@ -48,7 +57,6 @@ class Program
             Reference reference = new Reference("Proverbs", 3, 5, 6);
             scripture = new Scripture(reference, "Trust in the Lord with all thine heart; and lean not unto thine own understanding. In all\nthy ways acknowledge him, and he shall direct thy paths.");
         }
-
 
         while (true)
         {
