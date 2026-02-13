@@ -1,7 +1,10 @@
-Super,150,1
-Master,250,2
-Lord,350,3
-Epic,450,4
-Champion,550,5
-Supreme,650,6
-Grandmaster,750,7
+Unicorn,1,100
+Achiever,1,50
+Dude,2,25
+Ninja,2,175
+Knight,3,180
+Samurai,3,200
+Goal Crusher,10,500
+Wizard,5,400
+Dragon,10,1000
+King,100,10000

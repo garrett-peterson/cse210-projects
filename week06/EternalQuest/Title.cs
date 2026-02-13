@@ -21,8 +21,18 @@ public class Title
         return (level >= _level);
     }
 
-    public void DisplayTitle()
+    public string DisplayTitle()
     {
-        Console.WriteLine($"{_title}   Cost:{_cost}   Required Level:{_level}");
+        return $"{_title}   Cost:{_cost}   Required Level:{_level}";
+    }
+
+    public string GetTitle()
+    {
+        return _title;
+    }
+
+    public int GetCost()
+    {
+        return _cost;
     }
 }

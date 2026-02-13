@@ -14,4 +14,10 @@
   </None>
   </ItemGroup>
 
+  <ItemGroup>
+  <None Update="prefixOptions.txt">
+    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+  </None>
+  </ItemGroup>
+
 </Project>

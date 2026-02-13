@@ -1,0 +1,7 @@
+Super,150,1
+Master,250,2
+Lord,350,3
+Epic,450,4
+Champion,550,5
+Supreme,650,6
+Grandmaster,750,7

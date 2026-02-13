@@ -1,4 +1,5 @@
 using System.Drawing;
+using System.Runtime.CompilerServices;
 using System.Xml.Serialization;
 
 public class GoalManager
@@ -7,7 +8,6 @@ public class GoalManager
     private int _score;
     private string _titlePrefix;
     private string _titleSuffix;
-    private string _title;
     private int _level;
     private List<Title> _prefixOptions = new List<Title>();
     private List<Title> _suffixOptions = new List<Title>();
@@ -18,9 +18,8 @@ public class GoalManager
 
         _level = 0;
 
-        _titlePrefix =" ";
+        _titlePrefix = " ";
         _titleSuffix = "";
-        _title = _titlePrefix + _titleSuffix;
 
         CreatePrefixOptions(); 
         CreateSuffixOptions();   
@@ -82,9 +81,10 @@ public class GoalManager
 
     public void DisplayPlayerInfo()
     {
-        if (_title != " ")
+        string title = _titlePrefix +" "+ _titleSuffix;
+        if (!string.IsNullOrEmpty(title))
         {
-            Console.WriteLine($"\nYou have {_score} points {_title}");
+            Console.WriteLine($"\nYou have {_score} points {title}");
             Console.WriteLine($"You are level {_level}\n");
         }
         else
@@ -200,6 +200,9 @@ public class GoalManager
         using (StreamWriter outputFile = new StreamWriter(filename))
         {
             outputFile.WriteLine(_score);
+            outputFile.WriteLine(_level);
+            outputFile.WriteLine(_titlePrefix);
+            outputFile.WriteLine(_titleSuffix);
             foreach(Goal g in _goals)
             {
                 outputFile.WriteLine(g.GetStringRepresentation());
@@ -214,8 +217,11 @@ public class GoalManager
 
         string[] lines = System.IO.File.ReadAllLines(filename);
         _score = int.Parse(lines[0]);
+        _level = int.Parse(lines[1]);
+        _titlePrefix = lines[2];
+        _titleSuffix = lines[3];
 
-        foreach(string line in lines.Skip(1))
+        foreach(string line in lines.Skip(4))
         {
             string[] values = line.Split(',');
 
@@ -252,33 +258,101 @@ public class GoalManager
     public void SpendPoints()
     {
         Console.WriteLine($"You have {_score} points to spend");
-        Console.WriteLine($"Your current level is {_level} your title is {_title}\n");
+        Console.WriteLine($"Your current level is {_level} your title is {_titlePrefix} {_titleSuffix}\n");
+
+        Console.WriteLine("Prefix Options:");
+        int i = 1;
+        
+        foreach (Title title in _prefixOptions)
+        {
+            string fullTitle = title.DisplayTitle();
+            Console.WriteLine($"   {i}. {fullTitle}");
+            i++;
+        }
+        Console.WriteLine($"   {i}. Skip");
+
+        Console.Write("Select an option: ");
+        string prefixChoice = Console.ReadLine();
+
+        int index = int.Parse(prefixChoice) - 1;
+
+        if( index == i-1)
+        {
+            Console.WriteLine();
+        }
+        else
+        {
+            if (_prefixOptions[index].CanAfford(_score) && _prefixOptions[index].MeetsLevelRequirement(_level))
+            {
+                _titlePrefix = _prefixOptions[index].GetTitle();
+                _score -= _prefixOptions[index].GetCost();
+            }
+            else
+            {
+                Console.WriteLine("You are not high enough level/do not have enough points");
+            }
+        }
+
+        Console.WriteLine("\nSuffix Options:");
+        int x = 1;
+        
+        foreach (Title title in _prefixOptions)
+        {
+            string fullTitle = title.DisplayTitle();
+            Console.WriteLine($"   {x}. {fullTitle}");
+            x++;
+        }
+        Console.WriteLine($"   {x}. Skip");
 
         Console.Write("Select an option: ");
         string suffixChoice = Console.ReadLine();
 
+        int suffIndex = int.Parse(suffixChoice) - 1;
 
-        //title suffix
-        //unicorn
-        //ninja
-        //goal crusher
-        //king
-        //wizard
-        //samurai
-        //dragon
+        if( index == i-1)
+        {
+            Console.WriteLine();
+        }
+        else
+        {
+            if (_suffixOptions[index].CanAfford(_score) && _suffixOptions[index].MeetsLevelRequirement(_level))
+            {
+                _titleSuffix = _suffixOptions[index].GetTitle();
+                _score -= _suffixOptions[index].GetCost();
+            }
+            else
+            {
+                Console.WriteLine("You are not high enough level/do not have enough points");
+            }
+        }
+        Console.WriteLine($"Your title is now:");
+        Console.WriteLine($"{_titlePrefix} {_titleSuffix}");
+    
     }
 
     public void  CreatePrefixOptions()
     {
-        string[] lines = System.IO.File.ReadAllLines("suffixOptions.txt");
+        string[] lines = System.IO.File.ReadAllLines("prefixOptions.txt");
         foreach (string line in lines)
         {
-            Console.WriteLine(line);
+            string[] values = line.Split(',');
+
+            Title title = new Title(values[0], int.Parse(values[1]), int.Parse(values[2]));
+            _prefixOptions.Add(title);
         }
+        
     }
 
     public void CreateSuffixOptions()
     {
+        string[] lines = System.IO.File.ReadAllLines("suffixOptions.txt");
+        foreach (string line in lines)
+        {
+            string[] values = line.Split(',');
+
+            Title title = new Title(values[0], int.Parse(values[1]), int.Parse(values[2]));
+            _suffixOptions.Add(title);
+        }
         
     }
 }
