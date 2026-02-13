@@ -293,10 +293,12 @@ public class GoalManager
             }
         }
 
-        Console.WriteLine("\nSuffix Options:");
+        Console.WriteLine($"You have {_score} points left\n");
+
+        Console.WriteLine("Suffix Options:");
         int x = 1;
         
-        foreach (Title title in _prefixOptions)
+        foreach (Title title in _suffixOptions)
         {
             string fullTitle = title.DisplayTitle();
             Console.WriteLine($"   {x}. {fullTitle}");
@@ -309,16 +311,16 @@ public class GoalManager
 
         int suffIndex = int.Parse(suffixChoice) - 1;
 
-        if( index == i-1)
+        if(suffIndex == i-1)
         {
             Console.WriteLine();
         }
         else
         {
-            if (_suffixOptions[index].CanAfford(_score) && _suffixOptions[index].MeetsLevelRequirement(_level))
+            if (_suffixOptions[suffIndex].CanAfford(_score) && _suffixOptions[suffIndex].MeetsLevelRequirement(_level))
             {
-                _titleSuffix = _suffixOptions[index].GetTitle();
-                _score -= _suffixOptions[index].GetCost();
+                _titleSuffix = _suffixOptions[suffIndex].GetTitle();
+                _score -= _suffixOptions[suffIndex].GetCost();
             }
             else
             {

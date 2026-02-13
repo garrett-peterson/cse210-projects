@@ -1,10 +1,10 @@
-Unicorn,1,100
-Achiever,1,50
-Dude,2,25
-Ninja,2,175
-Knight,3,180
-Samurai,3,200
-Goal Crusher,10,500
-Wizard,5,400
-Dragon,10,1000
-King,100,10000
+Unicorn,100,1
+Achiever,50,1
+Dude,25,2
+Ninja,175,2
+Knight,180,3
+Samurai,200,3
+Goal Crusher,500,10
+Wizard,400,5
+Dragon,1000,10
+King,10000,100
