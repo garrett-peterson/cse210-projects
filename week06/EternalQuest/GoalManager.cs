@@ -5,12 +5,25 @@ public class GoalManager
 {
     private List<Goal> _goals = new List<Goal>();
     private int _score;
+    private string _titlePrefix;
+    private string _titleSuffix;
     private string _title;
+    private int _level;
+    private List<Title> _prefixOptions = new List<Title>();
+    private List<Title> _suffixOptions = new List<Title>();
 
     public GoalManager()
     {
         _score = 0;
-        _title = " ";
+
+        _level = 0;
+
+        _titlePrefix =" ";
+        _titleSuffix = "";
+        _title = _titlePrefix + _titleSuffix;
+
+        CreatePrefixOptions(); 
+        CreateSuffixOptions();   
     }
 
     public void Start()
@@ -71,11 +84,13 @@ public class GoalManager
     {
         if (_title != " ")
         {
-            Console.WriteLine($"\nYou have {_score} points {_title}\n");
+            Console.WriteLine($"\nYou have {_score} points {_title}");
+            Console.WriteLine($"You are level {_level}\n");
         }
         else
         {
-            Console.WriteLine($"\nYou have {_score} points\n");
+            Console.WriteLine($"\nYou have {_score} points");
+            Console.WriteLine($"You are level {_level}\n");
         }
         
     }
@@ -162,10 +177,17 @@ public class GoalManager
         _goals[index].RecordEvent();
 
         int points = _goals[index].ReturnScore(wasComplete);
+
         _score += points;
+
+        if (wasComplete == false)
+        {
+            _level += 1;
+        }
 
         Console.WriteLine($"Congratulations! You have earned {points} points!");
         Console.WriteLine($"You now have {_score} points.");
+        Console.WriteLine($"You are now level {_level}");
 
     }
 
@@ -229,15 +251,34 @@ public class GoalManager
 
     public void SpendPoints()
     {
-        Console.WriteLine($"You have {_score} points to spend!");
-        //super
-        //master
-        //lord
-        //epic
+        Console.WriteLine($"You have {_score} points to spend");
+        Console.WriteLine($"Your current level is {_level} your title is {_title}\n");
 
+        Console.Write("Select an option: ");
+        string suffixChoice = Console.ReadLine();
+
+
+        //title suffix
         //unicorn
         //ninja
         //goal crusher
         //king
+        //wizard
+        //samurai
+        //dragon
+    }
+
+    public void  CreatePrefixOptions()
+    {
+        string[] lines = System.IO.File.ReadAllLines("suffixOptions.txt");
+        foreach (string line in lines)
+        {
+            Console.WriteLine(line);
+        }
+    }
+
+    public void CreateSuffixOptions()
+    {
+        
     }
 }
